@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.8"
+
+env:
+  global:
+    - PYTHONPATH=yugiohbot
+
+addons:
+  apt:
+    update: true
+
+install:
+  - pip install -r yugiohbot/requirements.txt
+  - pip install pytest-cov codecov
+
+script:
+  - pytest --cov=./
+
+after_success:
+  - codecov

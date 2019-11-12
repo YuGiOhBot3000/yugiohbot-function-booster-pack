@@ -1,0 +1,4 @@
+.idea
+.terraform
+__pycache__
+gcp_terraform.json

@@ -17,6 +17,21 @@ class TestPage(unittest.TestCase):
         posts = self.page.get_posts(days_ago=days_ago)
         self.assertTrue(expected_final_date in posts[len(posts) - 1]['created_time'])
 
+    def test_post_reactions(self):
+        posts = self.page.get_posts(days_ago=1)
+        reactions = self.page.post_reactions(posts)
+        self.assertTrue(len(reactions) > 0)
+
+    def test_post_image(self):
+        id = '101675587943804_119079029536793'
+        image_url = self.page.post_image(id)
+        self.assertTrue('https' in image_url)
+
+    def test_own_comments(self):
+        id = '101675587943804_119079029536793'
+        comments = self.page.own_comments(id)
+        self.assertTrue(len(comments) > 0)
+
 
 if __name__ == '__main__':
     unittest.main()

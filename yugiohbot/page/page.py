@@ -50,11 +50,12 @@ class Page:
 
             while 'paging' in reactions and 'next' in reactions['paging']:
                 try:
+                    reactions = requests.get(reactions['paging']['next']).json()
+
                     for reaction in reactions['data']:
                         r_type = reaction['type']
                         r[r_type] = r.get(r_type) + 1
 
-                    reactions = requests.get(reactions['paging']['next']).json()
                 except KeyError:
                     print(f'Reached end of reactions list.')
                     break

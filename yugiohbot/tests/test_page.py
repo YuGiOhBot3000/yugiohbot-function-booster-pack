@@ -1,6 +1,8 @@
 import os
 import unittest
+from unittest import mock
 from datetime import datetime, timedelta
+import json
 
 from page import Page
 
@@ -10,6 +12,11 @@ class TestPage(unittest.TestCase):
         access_token = os.getenv('ACCESS_TOKEN')
         page_id = os.getenv('PAGE_ID')
         self.page = Page(access_token=access_token, id=page_id)
+
+        with open('mock_posts.json') as json_file:
+            self.mock_posts_1 = json.load(json_file)
+            self.mock_posts_2 = self.mock_posts_1
+            self.mock_posts_2['paging']['next'] = ''
 
     def test_get_posts(self):
         days_ago = 7

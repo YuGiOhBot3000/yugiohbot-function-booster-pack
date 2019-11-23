@@ -81,14 +81,22 @@ class Page:
 
         return comments
 
-    def post_album(self, images):
+    def create_weekly_album(self):
         week_commencing = (datetime.now() - timedelta(7)).strftime('%d-%m-%Y')
         album_name = f'Booster Pack of the week ({week_commencing})'
+        print(f'Album name: {album_name}')
         response = self.graph.put_object(parent_object='me', connection_name='albums', name=album_name)
-        album_id = response['id']
+        return response['id']
+
+    def post_album(self, images, album_id):
+        post_ids = []
+
         for image in images:
             message = f'Card Name: {image["title"]}\nTotal Reactions: {image["total"]}'
             print(message)
             r = requests.get(image['url'])
             open('image.jpg', 'wb').write(r.content)
-            self.graph.put_photo(image=open('image.jpg', 'rb'), message=message, album_path=album_id + "/photos")
+            post = self.graph.put_photo(image=open('image.jpg', 'rb'), message=message, album_path=album_id + "/photos")
+            post_ids.append(post['id'])
+
+        return post_ids

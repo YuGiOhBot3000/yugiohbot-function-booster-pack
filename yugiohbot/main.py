@@ -18,27 +18,9 @@ def function(event, context):
     print('Got the following reactions: ', end=" ")
     print(reactions)
 
-    # We want to get all the posts with reactions above a threshold. If there are > 5 posts, we take those 5.
-    # Any more than 9 posts, we take the top 9.
-    reactions.sort(key=lambda x: x['total'], reverse=True)
-    print('Sorted total high to low: ', end=" ")
-    print(reactions)
+    reactions = get_top_reactions(reactions, reaction_threshold)
 
-    reactions = list(filter(lambda item: item['total'] >= reaction_threshold, reactions))
-    print(f'Posts above threshold of {reaction_threshold}:', end=" ")
-    print(reactions)
-
-    booster_pack = []
-    if len(reactions) >= 9:
-        booster_pack = reactions[:9]
-    elif 5 <= len(reactions) < 9:
-        booster_pack = reactions[:5]
-
-    for i, post in enumerate(booster_pack):
-        booster_pack[i] = post['id']
-
-    print(f'Post IDs above threshold of {reaction_threshold}:', end=" ")
-    print(booster_pack)
+    booster_pack = create_booster_pack(reactions)
 
     images = []
     for i, id in enumerate(booster_pack):
@@ -48,4 +30,45 @@ def function(event, context):
     print('Image URLS with their titles and totals', end=" ")
     print(images)
 
-    page.post_album(images)
+    album_id = page.create_weekly_album()
+    page.post_album(images, album_id)
+
+
+def get_top_reactions(reactions, threshold):
+    """
+    We get all the posts with reactions above a threshold.
+    If there are > 5 posts, we take those 5.
+    Any more than 9 posts, we take the top 9.
+    :param reactions: List of reactions for each post.
+    :param threshold: The minimum number of reactions for the post to be considered for the booster pack.
+    :return: The sorted and filtered list of reactions above the threshold.
+    """
+    reactions.sort(key=lambda x: x['total'], reverse=True)
+    print('Sorted total high to low: ', end=" ")
+    print(reactions)
+
+    reactions = list(filter(lambda item: item['total'] >= threshold, reactions))
+    print(f'Posts above threshold of {threshold}:', end=" ")
+    print(reactions)
+
+    return reactions
+
+def create_booster_pack(reactions):
+    """
+    Creates the list of post IDs for the booster pack.
+    :param reactions: List of sorted reactions.
+    :return: The list of post IDs.
+    """
+    booster_pack = []
+    if len(reactions) >= 9:
+        booster_pack = reactions[:9]
+    elif 5 <= len(reactions) < 9:
+        booster_pack = reactions[:5]
+
+    for i, post in enumerate(booster_pack):
+        booster_pack[i] = post['id']
+
+    print(f'Post IDs above threshold:', end=" ")
+    print(booster_pack)
+
+    return booster_pack

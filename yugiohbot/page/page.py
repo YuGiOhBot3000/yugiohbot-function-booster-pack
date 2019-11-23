@@ -68,7 +68,7 @@ class Page:
 
         return reactions_per_post
 
-    def post_image(self, post_id):
+    def get_post_image(self, post_id):
         image = self.graph.get_connections(id=post_id, connection_name='attachments')
         return image['data'][0]['media']['image']['src']
 
@@ -80,3 +80,15 @@ class Page:
                 comments.append(comment['message'])
 
         return comments
+
+    def post_album(self, images):
+        week_commencing = (datetime.now() - timedelta(7)).strftime('%d-%m-%Y')
+        album_name = f'Booster Pack of the week ({week_commencing})'
+        response = self.graph.put_object(parent_object='me', connection_name='albums', name=album_name)
+        album_id = response['id']
+        for image in images:
+            message = f'Card Name: {image["title"]}\nTotal Reactions: {image["total"]}'
+            print(message)
+            r = requests.get(image['url'])
+            open('image.jpg', 'wb').write(r.content)
+            self.graph.put_photo(image=open('image.jpg', 'rb'), message=message, album_path=album_id + "/photos")

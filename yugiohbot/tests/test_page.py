@@ -31,7 +31,7 @@ class TestPage(unittest.TestCase):
 
     def test_post_image(self):
         id = '101675587943804_119079029536793'
-        image_url = self.page.post_image(id)
+        image_url = self.page.get_post_image(id)
         self.assertTrue('https' in image_url)
 
     def test_own_comments(self):

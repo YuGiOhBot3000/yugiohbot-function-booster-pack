@@ -13,11 +13,6 @@ class TestPage(unittest.TestCase):
         page_id = os.getenv('PAGE_ID')
         self.page = Page(access_token=access_token, id=page_id)
 
-        with open('mock_posts.json') as json_file:
-            self.mock_posts_1 = json.load(json_file)
-            self.mock_posts_2 = self.mock_posts_1
-            self.mock_posts_2['paging']['next'] = ''
-
     def test_get_posts(self):
         days_ago = 7
         expected_final_date = (datetime.now() - timedelta(days=days_ago)).strftime("%Y-%m-%d")

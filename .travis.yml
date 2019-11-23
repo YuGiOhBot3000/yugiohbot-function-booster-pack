@@ -2,6 +2,10 @@ language: python
 python:
   - "3.8"
 
+cache:
+  directories:
+  - "$HOME/google-cloud-sdk/"
+
 env:
   global:
     - PYTHONPATH=yugiohbot
@@ -9,6 +13,21 @@ env:
 addons:
   apt:
     update: true
+
+before_install:
+  - sudo apt-get install -y zip unzip
+  - if [ ! -d $HOME/google-cloud-sdk/bin ]; then
+    rm -rf $HOME/google-cloud-sdk;
+    curl https://sdk.cloud.google.com | bash > /dev/null;
+    fi
+  - source $HOME/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components install beta
+  - gcloud --quiet components update
+  - wget https://releases.hashicorp.com/terraform/${TERRAFORM}/terraform_${TERRAFORM}_linux_amd64.zip
+  - unzip terraform_${TERRAFORM}_linux_amd64.zip
+  - sudo mv terraform /usr/local/bin/
+  - terraform --version
 
 install:
   - pip install -r yugiohbot/requirements.txt
@@ -19,3 +38,15 @@ script:
 
 after_success:
   - codecov
+
+before_deploy:
+  - mkdir -p deployment/function/
+  - cp -a yugiohbot/. deployment/function/
+  - chmod +x ./deployment/deploy.sh
+
+deploy:
+  - provider: script
+    script: bash deployment/deploy.sh
+    skip_cleanup: true
+    on:
+      branch: master

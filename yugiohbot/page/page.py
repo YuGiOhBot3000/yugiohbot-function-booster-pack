@@ -95,8 +95,8 @@ class Page:
             message = f'Card Name: {image["title"]}\nTotal Reactions: {image["total"]}'
             print(message)
             r = requests.get(image['url'])
-            open('image.jpg', 'wb').write(r.content)
-            post = self.graph.put_photo(image=open('image.jpg', 'rb'), message=message, album_path=album_id + "/photos")
+            open('/tmp/image.jpg', 'wb').write(r.content)
+            post = self.graph.put_photo(image=open('/tmp/image.jpg', 'rb'), message=message, album_path=album_id + "/photos")
             post_ids.append(post['id'])
 
         return post_ids

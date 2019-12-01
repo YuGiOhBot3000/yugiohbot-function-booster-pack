@@ -88,15 +88,22 @@ class Page:
         response = self.graph.put_object(parent_object='me', connection_name='albums', name=album_name)
         return response['id']
 
-    def post_album(self, images, album_id):
+    def post_album(self, images, album_id, save_location='/tmp/image.jpg'):
         post_ids = []
 
         for image in images:
             message = f'Card Name: {image["title"]}\nTotal Reactions: {image["total"]}'
             print(message)
             r = requests.get(image['url'])
-            open('/tmp/image.jpg', 'wb').write(r.content)
-            post = self.graph.put_photo(image=open('/tmp/image.jpg', 'rb'), message=message, album_path=album_id + "/photos")
+
+            f = open(save_location, 'wb')
+            f.write(r.content)
+            f.close()
+
+            f = open(save_location, 'rb')
+            post = self.graph.put_photo(image=f, message=message, album_path=album_id + "/photos")
+            f.close()
+
             post_ids.append(post['id'])
 
         return post_ids

@@ -49,7 +49,7 @@ class TestPage(unittest.TestCase):
             {'url': url, 'title': 'test', 'total': 1},
             {'url': url, 'title': 'test', 'total': 2}
         ]
-        result = self.page.post_album(images, '1234')
+        result = self.page.post_album(images, '1234', save_location='image.jpg')
         os.remove('image.jpg')
         self.assertEqual(result, [1, 1])
 

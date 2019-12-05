@@ -25,7 +25,8 @@ def function(event, context):
     images = []
     for i, id in enumerate(booster_pack):
         title = page.own_comments(id)[0].splitlines()[0].split(':')[1].strip()
-        images.append({'url': page.get_post_image(id), 'title': title, 'total': reactions[i]['total']})
+        images.append({'url': page.get_post_image(id), 'permalink': page.get_post_permalink(id), 'title': title,
+                       'total': reactions[i]['total']})
 
     print('Image URLS with their titles and totals', end=" ")
     print(images)
@@ -52,6 +53,7 @@ def get_top_reactions(reactions, threshold):
     print(reactions)
 
     return reactions
+
 
 def create_booster_pack(reactions):
     """

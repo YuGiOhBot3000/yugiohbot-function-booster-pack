@@ -72,6 +72,10 @@ class Page:
         image = self.graph.get_connections(id=post_id, connection_name='attachments')
         return image['data'][0]['media']['image']['src']
 
+    def get_post_permalink(self, post_id):
+        image = self.graph.get_object(id=post_id, fields='permalink_url')
+        return image['permalink_url'].split('?substory_index')[0]
+
     def own_comments(self, post_id):
         post = self.graph.get_connections(id=post_id, connection_name='comments')
         comments = []
@@ -92,7 +96,7 @@ class Page:
         post_ids = []
 
         for image in images:
-            message = f'Card Name: {image["title"]}\nTotal Reactions: {image["total"]}'
+            message = f'Card Name: {image["title"]}\nTotal Reactions: {image["total"]}\nOriginal Post: {image["permalink"]}'
             print(message)
             r = requests.get(image['url'])
 

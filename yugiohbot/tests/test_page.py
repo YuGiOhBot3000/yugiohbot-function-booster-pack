@@ -29,6 +29,11 @@ class TestPage(unittest.TestCase):
         image_url = self.page.get_post_image(id)
         self.assertTrue('https' in image_url)
 
+    def test_post_url(self):
+        id = '101675587943804_119079029536793'
+        image_url = self.page.get_post_permalink(id)
+        self.assertTrue('https' in image_url)
+
     def test_own_comments(self):
         id = '101675587943804_119079029536793'
         comments = self.page.own_comments(id)
@@ -46,8 +51,8 @@ class TestPage(unittest.TestCase):
         mock_put_photo.return_value = {'id': 1}
         url = 'https://images-na.ssl-images-amazon.com/images/I/51up1E83ZlL._SX355_.jpg'
         images = [
-            {'url': url, 'title': 'test', 'total': 1},
-            {'url': url, 'title': 'test', 'total': 2}
+            {'url': url, 'title': 'test', 'total': 1, 'permalink': url},
+            {'url': url, 'title': 'test', 'total': 2, 'permalink': url}
         ]
         result = self.page.post_album(images, '1234', save_location='image.jpg')
         os.remove('image.jpg')

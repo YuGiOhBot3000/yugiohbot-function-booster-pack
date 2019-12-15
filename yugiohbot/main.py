@@ -24,7 +24,10 @@ def function(event, context):
 
     images = []
     for i, id in enumerate(booster_pack):
-        title = page.own_comments(id)[0].splitlines()[0].split(':')[1].strip()
+        try:
+            title = page.own_comments(id)[0].splitlines()[0].split(':')[1].strip()
+        except IndexError:
+            title = 'Oops, bot broke - Error in post comment, maybe a botmin should check it out?'
         images.append({'url': page.get_post_image(id), 'permalink': page.get_post_permalink(id), 'title': title,
                        'total': reactions[i]['total']})
 

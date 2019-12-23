@@ -1,5 +1,5 @@
 # YuGiOhBot: Booster Pack Function
-Build status: ![](https://travis-ci.org/Tohaker/yugiohbot-function-booster-pack.svg?branch=master)
+Build status: ![](https://travis-ci.org/YuGiOhBot3000/yugiohbot-function-booster-pack.svg?branch=master)
 
 This project sets up the Booster Pack cloud function for the YuGiOhBot.
 

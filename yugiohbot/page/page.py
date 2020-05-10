@@ -41,7 +41,7 @@ class Page:
         reactions_per_post = []
         for post in posts:
             id = post['id']
-            r = {'LIKE': 0, 'LOVE': 0, 'HAHA': 0, 'WOW': 0, 'SAD': 0, 'ANGRY': 0}
+            r = {'LIKE': 0, 'LOVE': 0, 'HAHA': 0, 'WOW': 0, 'SAD': 0, 'ANGRY': 0, 'CARE': 0}
             reactions = self.graph.get_connections(id=id, connection_name='reactions')
 
             for reaction in reactions['data']:

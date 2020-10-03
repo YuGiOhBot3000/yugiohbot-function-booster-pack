@@ -8,6 +8,7 @@ jobs:
       PYTHONPATH: yugiohbot
       CLOUDSDK_CORE_DISABLE_PROMPTS: 1
       ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
+      PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
 
     runs-on: ubuntu-latest
     steps:

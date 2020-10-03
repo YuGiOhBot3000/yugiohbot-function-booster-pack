@@ -6,7 +6,6 @@ jobs:
   build:
     env:
       PYTHONPATH: yugiohbot
-      CLOUDSDK_CORE_DISABLE_PROMPTS: 1
       ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
       PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
 
@@ -17,19 +16,6 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.7
-
-      - uses: hashicorp/setup-terraform@v1
-      - run: terraform --version
-
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-        with:
-          service_account_email: ${{ secrets.GCP_EMAIL }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          export_default_credentials: true
-      - run: gcloud info
-      - run: gcloud --quiet components install beta
-      - run: gcloud --quiet components update
 
       - name: Install dependencies
         run: |

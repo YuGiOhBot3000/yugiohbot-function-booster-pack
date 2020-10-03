@@ -22,6 +22,10 @@ def function(event, context):
 
     booster_pack = create_booster_pack(reactions)
 
+    if len(booster_pack) == 0:
+        print('No images in booster pack. All done here!')
+        return None
+
     images = []
     for i, id in enumerate(booster_pack):
         try:

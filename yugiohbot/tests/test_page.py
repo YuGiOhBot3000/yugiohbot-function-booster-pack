@@ -2,7 +2,6 @@ import os
 import unittest
 from unittest import mock
 from datetime import datetime, timedelta
-import json
 
 from page import Page
 

@@ -8,6 +8,5 @@ terraform {
   backend "gcs" {
     bucket      = "yugiohbot-tf-state"
     prefix      = "booster-pack"
-    credentials = "~/account.json"
   }
 }

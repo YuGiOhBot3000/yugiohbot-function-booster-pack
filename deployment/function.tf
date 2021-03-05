@@ -17,6 +17,7 @@ resource "google_cloudfunctions_function" "function" {
   environment_variables = {
     ACCESS_TOKEN  = var.access_token
     PAGE_ID       = var.page_id
+    REACTION_THRESHOLD = var.reaction_threshold
   }
 }
 

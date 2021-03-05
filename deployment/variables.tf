@@ -15,7 +15,7 @@ variable "function_description" {
 
 variable "function_runtime" {
   description = "The runtime for the function."
-  default     = "python37"
+  default     = "python38"
 }
 
 variable "entry_point" {
@@ -39,4 +39,9 @@ variable "access_token" {
 
 variable "page_id" {
   description = "The Facebook Page ID"
+}
+
+variable "reaction_threshold" {
+  description = "The minimum number of facebook reacts a post needs to be included"
+  default     = 8
 }

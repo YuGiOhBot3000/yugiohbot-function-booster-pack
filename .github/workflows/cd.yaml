@@ -23,7 +23,7 @@ jobs:
       - uses: hashicorp/setup-terraform@v1
       - run: terraform --version
 
-      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      - uses: google-github-actions/setup-gcloud@master
         with:
           service_account_email: ${{ secrets.GCP_EMAIL }}
           service_account_key: ${{ secrets.GCP_SA_KEY }}

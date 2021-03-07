@@ -38,13 +38,6 @@ class TestPage(unittest.TestCase):
         comments = self.page.own_comments(id)
         self.assertTrue(len(comments) > 0)
 
-    @mock.patch('facebook.GraphAPI.put_object')
-    def test_create_weekly_album(self, mock_put_object):
-        expected = '1234'
-        mock_put_object.return_value = {'id': expected}
-        result = self.page.create_weekly_album()
-        self.assertEqual(result, expected)
-
     @mock.patch('facebook.GraphAPI.put_photo')
     def test_post_album(self, mock_put_photo):
         mock_put_photo.return_value = {'id': 1}

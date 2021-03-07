@@ -45,3 +45,7 @@ variable "reaction_threshold" {
   description = "The minimum number of facebook reacts a post needs to be included"
   default     = 8
 }
+
+variable "album_id" {
+  description = "The Facebook Album ID to add photos to"
+}

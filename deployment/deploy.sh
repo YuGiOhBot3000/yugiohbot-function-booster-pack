@@ -21,6 +21,7 @@ echo "Planning Terraform."
 terraform plan \
     -var="access_token=$ACCESS_TOKEN" \
     -var="page_id=$PAGE_ID" \
+    -var="album_id=$ALBUM_ID" \
     -out=output.tfplan
 
 echo "Applying Terraform."

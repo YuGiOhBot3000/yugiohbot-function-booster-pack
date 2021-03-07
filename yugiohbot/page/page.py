@@ -7,7 +7,7 @@ import requests
 class Page:
 
     def __init__(self, access_token, id):
-        self.graph = facebook.GraphAPI(access_token=access_token, version='6.0')
+        self.graph = facebook.GraphAPI(access_token=access_token, version='8.0')
         self.id = id
 
     def get_posts(self, days_ago=7):
@@ -97,13 +97,6 @@ class Page:
                     comments.append(comment['message'])
 
         return comments
-
-    def create_weekly_album(self):
-        week_commencing = (datetime.now() - timedelta(7)).strftime('%d-%m-%Y')
-        album_name = f'Booster Pack of the week ({week_commencing})'
-        print(f'Album name: {album_name}')
-        response = self.graph.put_object(parent_object='me', connection_name='albums', name=album_name)
-        return response['id']
 
     def post_album(self, images, album_id, save_location='/tmp/image.jpg'):
         post_ids = []

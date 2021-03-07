@@ -7,6 +7,7 @@ def function(event, context):
     access_token = os.getenv('ACCESS_TOKEN')
     page_id = os.getenv('PAGE_ID')
     reaction_threshold = int(os.getenv('REACTION_THRESHOLD', 10))
+    album_id = os.getenv('ALBUM_ID')
 
     page = Page(access_token=access_token, id=page_id)
 
@@ -38,7 +39,6 @@ def function(event, context):
     print('Image URLS with their titles and totals', end=" ")
     print(images)
 
-    album_id = page.create_weekly_album()
     page.post_album(images, album_id)
 
 

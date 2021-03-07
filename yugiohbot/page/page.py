@@ -7,7 +7,7 @@ import requests
 class Page:
 
     def __init__(self, access_token, id):
-        self.graph = facebook.GraphAPI(access_token=access_token)
+        self.graph = facebook.GraphAPI(access_token=access_token, version='8.0')
         self.id = id
 
     def get_posts(self, days_ago=7):

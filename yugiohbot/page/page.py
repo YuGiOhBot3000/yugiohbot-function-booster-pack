@@ -80,8 +80,9 @@ class Page:
         post = self.graph.get_connections(id=post_id, connection_name='comments')
         comments = []
         for comment in post['data']:
-            if comment['from']['id'] == self.id:
-                comments.append(comment['message'])
+            if 'from' in comment:
+                if comment['from']['id'] == self.id:
+                    comments.append(comment['message'])
 
         return comments
 

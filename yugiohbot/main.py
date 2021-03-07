@@ -6,7 +6,7 @@ from page import Page
 def function(event, context):
     access_token = os.getenv('ACCESS_TOKEN')
     page_id = os.getenv('PAGE_ID')
-    reaction_threshold = os.getenv('REACTION_THRESHOLD', 10)
+    reaction_threshold = int(os.getenv('REACTION_THRESHOLD', 10))
 
     page = Page(access_token=access_token, id=page_id)
 

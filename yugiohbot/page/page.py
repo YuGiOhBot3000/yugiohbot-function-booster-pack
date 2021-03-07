@@ -41,30 +41,42 @@ class Page:
         reactions_per_post = []
         for post in posts:
             id = post['id']
-            r = {'LIKE': 0, 'LOVE': 0, 'HAHA': 0, 'WOW': 0, 'SAD': 0, 'ANGRY': 0, 'CARE': 0}
-            reactions = self.graph.get_connections(id=id, connection_name='reactions')
+            r = {'like': 0, 'love': 0, 'haha': 0, 'wow': 0, 'sorry': 0, 'anger': 0}
+            reactions = self.graph.get_connections(id=id, connection_name='insights/post_reactions_by_type_total')
 
-            for reaction in reactions['data']:
-                r_type = reaction['type']
-                r[r_type] = r.get(r_type) + 1
+            if 'data' in reactions and len(reactions['data']) > 0:
+                data = reactions['data'][0]
+                values = data['values']
 
-            while 'paging' in reactions and 'next' in reactions['paging']:
-                try:
-                    reactions = requests.get(reactions['paging']['next']).json()
+                if len(values) > 0:
+                    value = values[0]['value']
 
-                    for reaction in reactions['data']:
-                        r_type = reaction['type']
-                        r[r_type] = r.get(r_type) + 1
+                    for type, count in value.items():
+                        r[type] = r.get(type) + count
 
-                except KeyError:
-                    print(f'Reached end of reactions list.')
-                    break
+                    while 'paging' in reactions and 'next' in reactions['paging']:
+                        try:
+                            reactions = requests.get(reactions['paging']['next']).json()
 
-            total = 0
-            for r_type in r:
-                total += r[r_type]
+                            if 'data' in reactions and len(reactions['data']) > 0:
+                                data = reactions['data'][0]
+                                values = data['values']
 
-            reactions_per_post.append({'id': id, 'reactions': r, 'total': total})
+                                if len(values) > 0:
+                                    value = values[0]['value']
+
+                                    for type, count in value.items():
+                                        r[type] = r.get(type) + count
+
+                        except KeyError:
+                            print(f'Reached end of reactions list.')
+                            break
+
+                    total = 0
+                    for r_type in r:
+                        total += r[r_type]
+
+                    reactions_per_post.append({'id': id, 'reactions': r, 'total': total})
 
         return reactions_per_post
 
